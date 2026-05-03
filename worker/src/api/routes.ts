@@ -73,6 +73,11 @@ app.post("/api/crawl", async (c) => {
     return c.json({ error: "Manual crawl is disabled in production." }, 403);
   }
 
+  if (c.env.APP_ENV === "production") {
+    c.executionCtx.waitUntil(runCrawler(c.env));
+    return c.json({ ok: true, queued: true });
+  }
+
   const stats = await runCrawler(c.env);
   return c.json({ ok: true, stats });
 });
