@@ -49,7 +49,7 @@ export async function fetchDishes(
   });
 
   if (filters.search.trim()) {
-    params.set("q", filters.search.trim());
+    params.set("search", filters.search.trim());
   }
 
   if (filters.awardType) {

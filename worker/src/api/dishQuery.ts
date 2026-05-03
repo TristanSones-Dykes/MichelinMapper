@@ -26,7 +26,7 @@ export function parseDishQuery(url: URL): DishQuery {
   const limit = clampInteger(url.searchParams.get("pageSize"), 20, 1, 50);
   const sortCandidate = url.searchParams.get("sort");
   const awardTypeCandidate = url.searchParams.get("awardType");
-  const search = url.searchParams.get("q")?.trim();
+  const search = (url.searchParams.get("q") ?? url.searchParams.get("search"))?.trim();
 
   return {
     ...(AWARD_TYPES.has(awardTypeCandidate as AwardType)
