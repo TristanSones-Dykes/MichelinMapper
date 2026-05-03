@@ -114,7 +114,7 @@ function getSources(env: Env): IngestionSource[] {
 async function upsertRestaurant(env: Env, restaurant: RawRestaurantInput): Promise<number> {
   const slug = buildRestaurantSlug(restaurant);
 
-  await env.DB.prepare(
+  const row = await env.DB.prepare(
     `INSERT INTO restaurants (
       source, source_id, name, slug, award_type, cuisine, description, address,
       city, region, country, latitude, longitude, website_url, source_url, updated_at
@@ -133,7 +133,8 @@ async function upsertRestaurant(env: Env, restaurant: RawRestaurantInput): Promi
       longitude = excluded.longitude,
       website_url = excluded.website_url,
       source_url = excluded.source_url,
-      updated_at = datetime('now')`
+      updated_at = datetime('now')
+    RETURNING id`
   )
     .bind(
       restaurant.source,
@@ -152,12 +153,6 @@ async function upsertRestaurant(env: Env, restaurant: RawRestaurantInput): Promi
       restaurant.websiteUrl ?? null,
       restaurant.sourceUrl ?? null
     )
-    .run();
-
-  const row = await env.DB.prepare(
-    "SELECT id FROM restaurants WHERE source = ? AND source_id = ?"
-  )
-    .bind(restaurant.source, restaurant.sourceId)
     .first<IdRow>();
 
   if (!row) {
@@ -176,8 +171,13 @@ async function replaceExternalLinks(
     .bind(restaurantId)
     .run();
 
-  for (const link of links) {
-    await env.DB.prepare(
+  if (links.length === 0) {
+    return;
+  }
+
+  await env.DB.batch(
+    links.map((link) =>
+      env.DB.prepare(
       `INSERT INTO restaurant_external_links (
         restaurant_id, source, label, url, handle, updated_at
       ) VALUES (?, ?, ?, ?, ?, datetime('now'))
@@ -185,10 +185,9 @@ async function replaceExternalLinks(
         label = excluded.label,
         handle = excluded.handle,
         updated_at = datetime('now')`
+      ).bind(restaurantId, link.source, link.label, link.url, link.handle ?? null)
     )
-      .bind(restaurantId, link.source, link.label, link.url, link.handle ?? null)
-      .run();
-  }
+  );
 }
 
 function getExternalLinks(restaurant: RawRestaurantInput): NonNullable<RawRestaurantInput["externalLinks"]> {
@@ -237,7 +236,7 @@ async function upsertDish(
 ): Promise<number> {
   const slug = slugify(dish.name);
 
-  await env.DB.prepare(
+  const row = await env.DB.prepare(
     `INSERT INTO dishes (
       restaurant_id, source, source_id, name, slug, description, image_url,
       image_alt, image_credit, source_url, price_text, updated_at
@@ -252,7 +251,8 @@ async function upsertDish(
       image_credit = excluded.image_credit,
       source_url = excluded.source_url,
       price_text = excluded.price_text,
-      updated_at = datetime('now')`
+      updated_at = datetime('now')
+    RETURNING id`
   )
     .bind(
       restaurantId,
@@ -267,10 +267,6 @@ async function upsertDish(
       dish.sourceUrl ?? null,
       dish.priceText ?? null
     )
-    .run();
-
-  const row = await env.DB.prepare("SELECT id FROM dishes WHERE source = ? AND source_id = ?")
-    .bind(source, dish.sourceId)
     .first<IdRow>();
 
   if (!row) {
@@ -288,18 +284,15 @@ async function replaceDishTags(
   await env.DB.prepare("DELETE FROM dish_tags WHERE dish_id = ?").bind(dishId).run();
 
   for (const tag of tags) {
-    await env.DB.prepare(
+    const row = await env.DB.prepare(
       `INSERT INTO tags (name, slug, type)
       VALUES (?, ?, ?)
       ON CONFLICT(slug) DO UPDATE SET
         name = excluded.name,
-        type = excluded.type`
+        type = excluded.type
+      RETURNING id`
     )
       .bind(tag.name, tag.slug, tag.type)
-      .run();
-
-    const row = await env.DB.prepare("SELECT id FROM tags WHERE slug = ?")
-      .bind(tag.slug)
       .first<IdRow>();
 
     if (!row) {
