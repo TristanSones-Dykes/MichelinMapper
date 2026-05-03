@@ -46,7 +46,15 @@ export interface RawRestaurantInput {
   longitude: number;
   websiteUrl?: string;
   sourceUrl?: string;
+  externalLinks?: RawExternalLinkInput[];
   dishes: RawDishInput[];
+}
+
+export interface RawExternalLinkInput {
+  source: "website" | "wikidata" | "google_maps" | "instagram" | "tiktok" | "michelin" | "other";
+  label: string;
+  url: string;
+  handle?: string;
 }
 
 export interface RestaurantMapItem {
@@ -59,6 +67,13 @@ export interface RestaurantMapItem {
   country: string;
   latitude: number;
   longitude: number;
+  externalLinks: Array<{
+    id: number;
+    source: string;
+    label: string;
+    url: string;
+    handle: string | null;
+  }>;
   previewDishes: Array<{
     id: number;
     name: string;

@@ -85,6 +85,29 @@ CREATE TABLE IF NOT EXISTS dish_tags (
   FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS restaurant_external_links (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  restaurant_id INTEGER NOT NULL,
+  source TEXT NOT NULL CHECK (
+    source IN (
+      'website',
+      'wikidata',
+      'google_maps',
+      'instagram',
+      'tiktok',
+      'michelin',
+      'other'
+    )
+  ),
+  label TEXT NOT NULL,
+  url TEXT NOT NULL,
+  handle TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
+  UNIQUE (restaurant_id, source, url)
+);
+
 CREATE TABLE IF NOT EXISTS ingestion_runs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   source TEXT NOT NULL,
@@ -121,6 +144,12 @@ CREATE INDEX IF NOT EXISTS idx_tags_type
 
 CREATE INDEX IF NOT EXISTS idx_dish_tags_tag_id
   ON dish_tags (tag_id);
+
+CREATE INDEX IF NOT EXISTS idx_restaurant_external_links_restaurant_id
+  ON restaurant_external_links (restaurant_id);
+
+CREATE INDEX IF NOT EXISTS idx_restaurant_external_links_source
+  ON restaurant_external_links (source);
 
 CREATE INDEX IF NOT EXISTS idx_ingestion_runs_started_at
   ON ingestion_runs (started_at DESC);

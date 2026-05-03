@@ -21,6 +21,10 @@
   },
   "vars": {
     "APP_ENV": "production",
-    "CRAWLER_SOURCE_URL": "https://example.com/michelinmapper-seed.json"
+    "CRAWLER_SOURCE_URL": "https://example.com/michelinmapper-seed.json",
+    "ENABLE_WIKIDATA_SOURCE": "true",
+    "WIKIDATA_LIMIT": "80",
+    "ENABLE_WEBSITE_MENU_SOURCE": "true",
+    "WEBSITE_MENU_LIMIT": "6"
   }
 }

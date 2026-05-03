@@ -19,6 +19,7 @@ interface RestaurantRow {
   country: string;
   latitude: number;
   longitude: number;
+  external_links: string | null;
   preview_dishes: string | null;
 }
 
@@ -68,7 +69,7 @@ app.get("/api/health", (c) =>
 );
 
 app.post("/api/crawl", async (c) => {
-  if (c.env.APP_ENV === "production") {
+  if (c.env.APP_ENV === "production" && !hasCrawlerAdminAccess(c)) {
     return c.json({ error: "Manual crawl is disabled in production." }, 403);
   }
 
@@ -88,6 +89,25 @@ app.get("/api/restaurants", async (c) => {
       r.country,
       r.latitude,
       r.longitude,
+      (
+        SELECT json_group_array(
+          json_object('id', id, 'source', source, 'label', label, 'url', url, 'handle', handle)
+        )
+        FROM (
+          SELECT l.id, l.source, l.label, l.url, l.handle
+          FROM restaurant_external_links l
+          WHERE l.restaurant_id = r.id
+          ORDER BY
+            CASE l.source
+              WHEN 'website' THEN 1
+              WHEN 'google_maps' THEN 2
+              WHEN 'instagram' THEN 3
+              WHEN 'tiktok' THEN 4
+              ELSE 5
+            END,
+            l.label
+        )
+      ) AS external_links,
       (
         SELECT json_group_array(
           json_object('id', id, 'name', name, 'imageUrl', image_url)
@@ -123,6 +143,9 @@ app.get("/api/restaurants", async (c) => {
       country: row.country,
       latitude: row.latitude,
       longitude: row.longitude,
+      externalLinks: parseJsonArray<RestaurantMapItem["externalLinks"][number]>(
+        row.external_links
+      ),
       previewDishes: parseJsonArray<RestaurantMapItem["previewDishes"][number]>(
         row.preview_dishes
       )
@@ -246,6 +269,12 @@ function getOrderSql(sort: string): string {
     default:
       return "ORDER BY d.created_at DESC, d.id DESC";
   }
+}
+
+function hasCrawlerAdminAccess(c: { env: Env; req: { header(name: string): string | undefined } }): boolean {
+  const token = c.env.CRAWLER_ADMIN_TOKEN;
+  const authorization = c.req.header("authorization");
+  return Boolean(token && authorization === `Bearer ${token}`);
 }
 
 function mapDishRow(row: DishRow): DishListItem {

@@ -1,8 +1,12 @@
 import { classifyDish } from "../../shared/classifier";
+import { buildRestaurantSlug } from "../../shared/restaurantSlug";
 import { slugify } from "../../shared/slug";
 import type { ClassifiedTag, RawRestaurantInput } from "../../shared/types";
 import type { Env } from "./env";
-import { MOCK_RESTAURANTS } from "./mockData";
+import { createSeedSource } from "./sources/seed";
+import type { IngestionSource } from "./sources/types";
+import { extractWebsiteMenuDishes } from "./sources/websiteMenu";
+import { createWikidataSource } from "./sources/wikidata";
 
 interface IngestionStats {
   restaurantsSeen: number;
@@ -25,28 +29,47 @@ export async function runCrawler(env: Env): Promise<IngestionStats> {
   };
 
   try {
-    const restaurants = await fetchRestaurants(env.CRAWLER_SOURCE_URL);
-    stats.restaurantsSeen = restaurants.length;
-    stats.dishesSeen = restaurants.reduce((total, restaurant) => total + restaurant.dishes.length, 0);
+    let websiteMenuAttempts = 0;
+    const websiteMenuLimit = Number.parseInt(env.WEBSITE_MENU_LIMIT ?? "6", 10);
 
-    for (const restaurant of restaurants) {
-      const restaurantId = await upsertRestaurant(env, restaurant);
-      stats.restaurantsUpserted += 1;
+    for (const source of getSources(env)) {
+      const restaurants = await source.fetchRestaurants();
+      stats.restaurantsSeen += restaurants.length;
 
-      for (const dish of restaurant.dishes) {
-        const dishId = await upsertDish(env, restaurantId, restaurant.source, dish);
-        stats.dishesUpserted += 1;
+      for (const restaurant of restaurants) {
+        const enrichedRestaurant = { ...restaurant };
 
-        const tags = classifyDish({
-          awardType: restaurant.awardType,
-          city: restaurant.city,
-          country: restaurant.country,
-          cuisine: restaurant.cuisine,
-          dishName: dish.name,
-          description: dish.description
-        });
+        if (
+          shouldExtractWebsiteMenus(env) &&
+          enrichedRestaurant.dishes.length === 0 &&
+          enrichedRestaurant.websiteUrl &&
+          websiteMenuAttempts < websiteMenuLimit
+        ) {
+          websiteMenuAttempts += 1;
+          enrichedRestaurant.dishes = await safeExtractWebsiteMenuDishes(enrichedRestaurant);
+        }
 
-        await replaceDishTags(env, dishId, tags);
+        stats.dishesSeen += enrichedRestaurant.dishes.length;
+
+        const restaurantId = await upsertRestaurant(env, enrichedRestaurant);
+        stats.restaurantsUpserted += 1;
+        await replaceExternalLinks(env, restaurantId, getExternalLinks(enrichedRestaurant));
+
+        for (const dish of enrichedRestaurant.dishes) {
+          const dishId = await upsertDish(env, restaurantId, enrichedRestaurant.source, dish);
+          stats.dishesUpserted += 1;
+
+          const tags = classifyDish({
+            awardType: enrichedRestaurant.awardType,
+            city: enrichedRestaurant.city,
+            country: enrichedRestaurant.country,
+            cuisine: enrichedRestaurant.cuisine,
+            dishName: dish.name,
+            description: dish.description
+          });
+
+          await replaceDishTags(env, dishId, tags);
+        }
       }
     }
 
@@ -58,32 +81,38 @@ export async function runCrawler(env: Env): Promise<IngestionStats> {
   }
 }
 
-async function fetchRestaurants(sourceUrl: string): Promise<RawRestaurantInput[]> {
-  if (!sourceUrl || sourceUrl.includes("example.com")) {
-    return MOCK_RESTAURANTS;
+async function safeExtractWebsiteMenuDishes(restaurant: RawRestaurantInput): Promise<RawRestaurantInput["dishes"]> {
+  try {
+    return await extractWebsiteMenuDishes(restaurant);
+  } catch (error) {
+    console.warn(
+      JSON.stringify({
+        level: "warn",
+        source: "website-menu",
+        restaurant: restaurant.name,
+        message: error instanceof Error ? error.message : "Unknown menu extraction error"
+      })
+    );
+    return [];
+  }
+}
+
+function shouldExtractWebsiteMenus(env: Env): boolean {
+  return env.ENABLE_WEBSITE_MENU_SOURCE === "true";
+}
+
+function getSources(env: Env): IngestionSource[] {
+  const sources: IngestionSource[] = [createSeedSource(env.CRAWLER_SOURCE_URL)];
+
+  if (env.ENABLE_WIKIDATA_SOURCE !== "false") {
+    sources.push(createWikidataSource(Number.parseInt(env.WIKIDATA_LIMIT ?? "80", 10)));
   }
 
-  const response = await fetch(sourceUrl, {
-    headers: {
-      accept: "application/json",
-      "user-agent": "MichelinMapper/0.1 (+https://example.com)"
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error(`Crawler source returned ${response.status}`);
-  }
-
-  const payload = (await response.json()) as unknown;
-  if (!Array.isArray(payload)) {
-    throw new Error("Crawler source must return an array of restaurants");
-  }
-
-  return payload as RawRestaurantInput[];
+  return sources;
 }
 
 async function upsertRestaurant(env: Env, restaurant: RawRestaurantInput): Promise<number> {
-  const slug = slugify(`${restaurant.name}-${restaurant.city ?? restaurant.country}`);
+  const slug = buildRestaurantSlug(restaurant);
 
   await env.DB.prepare(
     `INSERT INTO restaurants (
@@ -136,6 +165,68 @@ async function upsertRestaurant(env: Env, restaurant: RawRestaurantInput): Promi
   }
 
   return row.id;
+}
+
+async function replaceExternalLinks(
+  env: Env,
+  restaurantId: number,
+  links: NonNullable<RawRestaurantInput["externalLinks"]>
+): Promise<void> {
+  await env.DB.prepare("DELETE FROM restaurant_external_links WHERE restaurant_id = ?")
+    .bind(restaurantId)
+    .run();
+
+  for (const link of links) {
+    await env.DB.prepare(
+      `INSERT INTO restaurant_external_links (
+        restaurant_id, source, label, url, handle, updated_at
+      ) VALUES (?, ?, ?, ?, ?, datetime('now'))
+      ON CONFLICT(restaurant_id, source, url) DO UPDATE SET
+        label = excluded.label,
+        handle = excluded.handle,
+        updated_at = datetime('now')`
+    )
+      .bind(restaurantId, link.source, link.label, link.url, link.handle ?? null)
+      .run();
+  }
+}
+
+function getExternalLinks(restaurant: RawRestaurantInput): NonNullable<RawRestaurantInput["externalLinks"]> {
+  const links = restaurant.externalLinks ? [...restaurant.externalLinks] : [];
+
+  if (restaurant.websiteUrl) {
+    links.push({ source: "website", label: "Website", url: restaurant.websiteUrl });
+  }
+
+  if (restaurant.sourceUrl) {
+    links.push({ source: "other", label: "Source", url: restaurant.sourceUrl });
+  }
+
+  links.push(
+    {
+      source: "google_maps",
+      label: "Google Maps",
+      url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${restaurant.name} ${restaurant.city ?? ""} ${restaurant.country}`
+      )}`
+    },
+    {
+      source: "tiktok",
+      label: "TikTok Search",
+      url: `https://www.tiktok.com/search?q=${encodeURIComponent(`${restaurant.name} restaurant`)}`
+    }
+  );
+
+  const seen = new Set<string>();
+  return links.filter((link) => {
+    const key = `${link.source}:${link.url}`;
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
 }
 
 async function upsertDish(

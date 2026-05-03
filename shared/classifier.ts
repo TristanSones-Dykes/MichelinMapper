@@ -49,6 +49,26 @@ const GASTRONOMIC_RULES: Array<{
     name: "Vegetarian",
     type: "dietary",
     keywords: ["vegetarian", "courgette", "aubergine", "mushroom", "asparagus"]
+  },
+  {
+    name: "Korean",
+    type: "cuisine",
+    keywords: ["korean", "banchan", "jook", "galbi", "kimchi"]
+  },
+  {
+    name: "Cantonese",
+    type: "cuisine",
+    keywords: ["cantonese", "dim sum", "char siu", "cheung fun", "turnip cake"]
+  },
+  {
+    name: "Spanish",
+    type: "cuisine",
+    keywords: ["spanish", "barcelona", "pesto", "mediterranean"]
+  },
+  {
+    name: "Vegetable-led",
+    type: "gastronomic",
+    keywords: ["vegetable", "vegetables", "farm", "garden", "greens"]
   }
 ];
 
