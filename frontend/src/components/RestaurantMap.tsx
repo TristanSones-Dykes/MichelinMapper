@@ -53,6 +53,15 @@ export function RestaurantMap({ restaurants }: RestaurantMapProps) {
                 ) : (
                   <small>No dishes loaded yet.</small>
                 )}
+                {restaurant.externalLinks.length > 0 ? (
+                  <div className="popup-links" aria-label={`${restaurant.name} external links`}>
+                    {restaurant.externalLinks.slice(0, 4).map((link) => (
+                      <a key={link.id} href={link.url} target="_blank" rel="noreferrer">
+                        {formatLinkLabel(link.source, link.label)}
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             </Popup>
           </Marker>
@@ -74,5 +83,20 @@ function formatAward(value: RestaurantMapItem["awardType"]): string {
       return "Bib Gourmand";
     case "recommended":
       return "Recommended";
+  }
+}
+
+function formatLinkLabel(source: string, fallback: string): string {
+  switch (source) {
+    case "google_maps":
+      return "Maps";
+    case "instagram":
+      return "Instagram";
+    case "tiktok":
+      return "TikTok";
+    case "website":
+      return "Website";
+    default:
+      return fallback;
   }
 }
