@@ -2,7 +2,8 @@
 
 This project is designed for Cloudflare's free tier:
 
-- Cloudflare Workers for the Hono API and scheduled crawler.
+- Cloudflare Pages Functions for the Hono API.
+- Cloudflare Workers for the scheduled crawler trigger and compatibility proxy.
 - Cloudflare D1 for SQLite storage.
 - Cloudflare Pages for the React/Vite frontend.
 - OpenStreetMap tiles through Leaflet. Keep the attribution visible and do not bulk download tiles.
@@ -47,16 +48,20 @@ For the remote Cloudflare D1 database:
 npm run db:migrate:remote
 ```
 
-## 4. Configure The Crawler Source
+## 4. Configure The Crawler Sources
 
-The MVP uses bundled mock data when `CRAWLER_SOURCE_URL` is left as the example URL.
+The app uses bundled curated data when `CRAWLER_SOURCE_URL` is left as the example URL. It can also ingest Michelin-starred restaurant metadata from Wikidata.
 
-To use a real permitted JSON source, update `wrangler.jsonc`:
+To use a real permitted JSON source, update `wrangler.jsonc` or the matching Pages environment variables:
 
 ```jsonc
 "vars": {
   "APP_ENV": "production",
-  "CRAWLER_SOURCE_URL": "https://your-permitted-source.example/restaurants.json"
+  "CRAWLER_SOURCE_URL": "https://your-permitted-source.example/restaurants.json",
+  "ENABLE_WIKIDATA_SOURCE": "true",
+  "WIKIDATA_LIMIT": "80",
+  "ENABLE_WEBSITE_MENU_SOURCE": "false",
+  "WEBSITE_MENU_LIMIT": "0"
 }
 ```
 
@@ -86,15 +91,32 @@ Expected source shape:
 ]
 ```
 
-Do not scrape Michelin's protected website directly. Use permitted public datasets, your own curated data, or APIs whose terms allow this use.
+Do not scrape Michelin's protected website directly. Use permitted public datasets, your own curated data, restaurant websites that expose public metadata, or APIs whose terms allow this use.
 
-## 5. Deploy The Worker API And Crawler
+## 5. Deploy The Pages API
+
+This repo includes `functions/api/[[route]].ts`, which serves the same Hono API from Cloudflare Pages Functions. Bind the D1 database to Pages as `DB` and set these environment variables:
+
+```bash
+APP_ENV=production
+CRAWLER_SOURCE_URL=https://example.com/michelinmapper-seed.json
+ENABLE_WIKIDATA_SOURCE=true
+WIKIDATA_LIMIT=80
+ENABLE_WEBSITE_MENU_SOURCE=false
+WEBSITE_MENU_LIMIT=0
+CRAWLER_ADMIN_TOKEN=<long-random-token>
+VITE_API_BASE_URL=
+```
+
+Leaving `VITE_API_BASE_URL` empty makes the frontend call same-origin `/api/*`.
+
+## 6. Deploy The Worker Cron Trigger
 
 ```bash
 npm run deploy:worker
 ```
 
-The cron trigger in `wrangler.jsonc` runs weekly:
+The Worker can either host the API directly or act as a scheduled trigger/proxy for the Pages API. The cron trigger in `wrangler.jsonc` runs weekly:
 
 ```jsonc
 "triggers": {
@@ -109,7 +131,7 @@ npm run dev:worker
 curl "http://localhost:8787/__scheduled?cron=0+3+*+*+1"
 ```
 
-## 6. Deploy The Frontend To Cloudflare Pages
+## 7. Deploy The Frontend To Cloudflare Pages
 
 Build locally:
 
@@ -129,27 +151,23 @@ Deploy the built frontend:
 npx wrangler pages deploy dist --project-name michelinmapper
 ```
 
-Set the frontend API base URL in Cloudflare Pages environment variables:
-
-```bash
-VITE_API_BASE_URL=https://michelinmapper-api.<your-subdomain>.workers.dev
-```
-
 If you deploy through the Cloudflare dashboard or Git integration:
 
 - Build command: `npm run build:frontend`
 - Build output directory: `dist`
-- Environment variable: `VITE_API_BASE_URL` set to the deployed Worker origin
+- Environment variable: `VITE_API_BASE_URL` empty for same-origin Pages Functions
 
-## 7. Production Smoke Test
+## 8. Production Smoke Test
 
 After deployment:
 
 ```bash
-curl https://michelinmapper-api.<your-subdomain>.workers.dev/api/health
-curl https://michelinmapper-api.<your-subdomain>.workers.dev/api/restaurants
-curl https://michelinmapper-api.<your-subdomain>.workers.dev/api/dishes?page=1&pageSize=6
-curl https://michelinmapper-api.<your-subdomain>.workers.dev/api/tags
+curl https://michelinmapper.pages.dev/api/health
+curl https://michelinmapper.pages.dev/api/restaurants
+curl "https://michelinmapper.pages.dev/api/dishes?page=1&pageSize=6"
+curl https://michelinmapper.pages.dev/api/tags
+curl -X POST https://michelinmapper.pages.dev/api/crawl \
+  -H "Authorization: Bearer $CRAWLER_ADMIN_TOKEN"
 ```
 
 Then load the Pages URL and verify:

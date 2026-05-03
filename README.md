@@ -5,9 +5,16 @@ MichelinMapper is a Cloudflare-free-tier web app and ingestion pipeline for mapp
 ## Stack
 
 - Frontend: React, Vite, TypeScript, Leaflet, OpenStreetMap tiles
-- Backend: Cloudflare Workers, Hono, TypeScript
+- Backend: Cloudflare Pages Functions and Cloudflare Workers, Hono, TypeScript
 - Database: Cloudflare D1 SQLite
-- Crawler: Cloudflare Worker Cron Trigger
+- Crawler: Cloudflare Worker Cron Trigger, Pages Function ingestion endpoint
+
+## Data Sources
+
+- Curated seed data provides verified restaurant and dish examples with source URLs.
+- Wikidata ingestion adds open Michelin-starred restaurant metadata and coordinates.
+- Optional website menu extraction reads public schema.org JSON-LD `MenuItem` metadata when enabled.
+- Google Maps, Instagram, and TikTok are integrated as outbound discovery links unless official API credentials are configured.
 
 ## Local Development
 
