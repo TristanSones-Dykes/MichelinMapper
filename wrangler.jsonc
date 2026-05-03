@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "michelinmapper-api",
+  "main": "worker/src/index.ts",
+  "compatibility_date": "2026-05-03",
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "michelinmapper",
+      "database_id": "ef286fbd-c7ce-4895-9d7c-3f76bba656f9"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "0 3 * * 1"
+    ]
+  },
+  "vars": {
+    "APP_ENV": "production",
+    "CRAWLER_SOURCE_URL": "https://example.com/michelinmapper-seed.json"
+  }
+}
