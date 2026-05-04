@@ -93,6 +93,18 @@ Expected source shape:
 
 Do not scrape Michelin's protected website directly. Use permitted public datasets, your own curated data, restaurant websites that expose public metadata, or APIs whose terms allow this use.
 
+To refresh the committed Michelin-derived seed data from public sitemap/detail pages on a machine that can access `guide.michelin.com`:
+
+```bash
+curl -L -o /tmp/michelin-us.xml https://guide.michelin.com/sitemap/restaurant/us/page/1.xml
+node scripts/scrape-michelin.mjs \
+  --sitemaps= \
+  --sitemap-files=/tmp/michelin-us.xml \
+  --limit=120
+```
+
+The script extracts restaurant JSON-LD, Michelin image URLs, award level, coordinates, website links, and a menu-highlight record. It does not bypass WAF challenges, CAPTCHA, account walls, or disallowed `robots.txt` paths.
+
 ## 5. Deploy The Pages API
 
 This repo includes `functions/api/[[route]].ts`, which serves the same Hono API from Cloudflare Pages Functions. Bind the D1 database to Pages as `DB` and set these environment variables:
