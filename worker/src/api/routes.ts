@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import type { DishListItem, RestaurantMapItem } from "../../../shared/types";
 import { runCrawler } from "../crawler";
 import type { Env } from "../env";
+import { mapDishDetailRow, type DishDetailRow } from "./dishOntology";
 import { parseDishQuery } from "./dishQuery";
 
 type HonoEnv = {
@@ -121,6 +122,7 @@ app.get("/api/restaurants", async (c) => {
           SELECT d.id, d.name, d.image_url
           FROM dishes d
           WHERE d.restaurant_id = r.id
+            AND d.dish_kind = 'dish'
           ORDER BY d.created_at DESC
           LIMIT 3
         )
@@ -194,7 +196,7 @@ app.get("/api/dishes", async (c) => {
     `SELECT COUNT(*) AS total
     FROM dishes d
     JOIN restaurants r ON r.id = d.restaurant_id
-    ${whereSql}`
+    ${withPublishableDishWhere(whereSql)}`
   )
     .bind(...params)
     .first<CountRow>();
@@ -224,7 +226,7 @@ app.get("/api/dishes", async (c) => {
       ) AS tags_json
     FROM dishes d
     JOIN restaurants r ON r.id = d.restaurant_id
-    ${whereSql}
+    ${withPublishableDishWhere(whereSql)}
     ${orderSql}
     LIMIT ? OFFSET ?`
   )
@@ -238,6 +240,79 @@ app.get("/api/dishes", async (c) => {
     total,
     hasMore: query.offset + results.length < total
   });
+});
+
+app.get("/api/dishes/:id", async (c) => {
+  const id = Number.parseInt(c.req.param("id"), 10);
+  if (!Number.isInteger(id) || id <= 0) {
+    return c.json({ error: "Invalid dish id." }, 400);
+  }
+
+  const row = await c.env.DB.prepare(
+    `SELECT
+      d.id,
+      d.source,
+      d.source_id,
+      d.source_url,
+      d.name,
+      d.slug,
+      d.description,
+      d.image_url,
+      d.image_alt,
+      d.image_credit,
+      d.price_text,
+      r.id AS restaurant_id,
+      r.name AS restaurant_name,
+      r.award_type,
+      r.cuisine,
+      r.city,
+      r.region,
+      r.country,
+      (
+        SELECT json_group_array(
+          json_object(
+            'id', t.id,
+            'name', t.name,
+            'slug', t.slug,
+            'type', t.type,
+            'confidence', dt.confidence,
+            'source', dt.source
+          )
+        )
+        FROM dish_tags dt
+        JOIN tags t ON t.id = dt.tag_id
+        WHERE dt.dish_id = d.id
+        ORDER BY t.type, t.name
+      ) AS tags_json,
+      (
+        SELECT json_group_array(
+          json_object(
+            'id', i.id,
+            'url', i.url,
+            'alt', i.alt,
+            'credit', i.credit,
+            'source', i.source,
+            'sourceUrl', i.source_url,
+            'isPrimary', i.is_primary
+          )
+        )
+        FROM dish_images i
+        WHERE i.dish_id = d.id
+        ORDER BY i.is_primary DESC, i.id ASC
+      ) AS images_json
+    FROM dishes d
+    JOIN restaurants r ON r.id = d.restaurant_id
+    WHERE d.id = ?
+      AND d.dish_kind = 'dish'`
+  )
+    .bind(id)
+    .first<DishDetailRow>();
+
+  if (!row) {
+    return c.json({ error: "Dish not found." }, 404);
+  }
+
+  return c.json({ item: mapDishDetailRow(row) });
 });
 
 app.get("/api/tags", async (c) => {
@@ -274,6 +349,14 @@ function getOrderSql(sort: string): string {
     default:
       return "ORDER BY d.created_at DESC, d.id DESC";
   }
+}
+
+function withPublishableDishWhere(whereSql: string): string {
+  if (!whereSql) {
+    return "WHERE d.dish_kind = 'dish'";
+  }
+
+  return `${whereSql} AND d.dish_kind = 'dish'`;
 }
 
 function hasCrawlerAdminAccess(c: { env: Env; req: { header(name: string): string | undefined } }): boolean {

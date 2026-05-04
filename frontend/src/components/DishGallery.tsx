@@ -47,15 +47,21 @@ export function DishGallery({
 }
 
 function DishCard({ dish }: { dish: DishListItem }) {
+  const href = `/dish/${dish.id}/${dish.slug}`;
+
   return (
     <article className="dish-card">
-      <ImageWithFallback src={dish.imageUrl} alt={dish.imageAlt ?? dish.name} />
+      <a className="dish-card-link" href={href} aria-label={`Open ${dish.name}`}>
+        <ImageWithFallback src={dish.imageUrl} alt={dish.imageAlt ?? dish.name} />
+      </a>
       <div className="dish-card-body">
         <div className="award-line">
           <span>{formatAward(dish.restaurant.awardType)}</span>
           {dish.priceText ? <span>{dish.priceText}</span> : null}
         </div>
-        <h3>{dish.name}</h3>
+        <h3>
+          <a href={href}>{dish.name}</a>
+        </h3>
         <p>{dish.description ?? "No description available yet."}</p>
         <div className="restaurant-line">
           {dish.restaurant.name}

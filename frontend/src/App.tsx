@@ -1,9 +1,23 @@
+import { useEffect, useState } from "react";
+import { DishDetail } from "./components/DishDetail";
 import { DishGallery } from "./components/DishGallery";
 import { Filters } from "./components/Filters";
 import { RestaurantMap } from "./components/RestaurantMap";
+import { useDishDetail } from "./hooks/useDishDetail";
 import { useMichelinMapper } from "./hooks/useMichelinMapper";
 
 export function App() {
+  const route = useCurrentRoute();
+  const dishDetail = useDishDetail(route.dishId);
+
+  if (route.dishId) {
+    return <DishDetail dish={dishDetail.dish} error={dishDetail.error} isLoading={dishDetail.isLoading} />;
+  }
+
+  return <HomePage />;
+}
+
+function HomePage() {
   const state = useMichelinMapper();
 
   return (
@@ -52,4 +66,22 @@ export function App() {
       </section>
     </main>
   );
+}
+
+function useCurrentRoute() {
+  const [pathname, setPathname] = useState(window.location.pathname);
+
+  useEffect(() => {
+    function handleNavigation() {
+      setPathname(window.location.pathname);
+    }
+
+    window.addEventListener("popstate", handleNavigation);
+    return () => window.removeEventListener("popstate", handleNavigation);
+  }, []);
+
+  const match = pathname.match(/^\/dish\/(\d+)/);
+  return {
+    dishId: match ? Number.parseInt(match[1] ?? "", 10) : null
+  };
 }

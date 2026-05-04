@@ -13,6 +13,8 @@ export type TagType =
   | "dietary"
   | "other";
 
+export type DishKind = "dish" | "menu_highlight";
+
 export interface ClassifiedTag {
   name: string;
   slug: string;
@@ -23,12 +25,33 @@ export interface ClassifiedTag {
 export interface RawDishInput {
   sourceId: string;
   name: string;
+  dishKind?: DishKind;
   description?: string;
   imageUrl?: string;
   imageAlt?: string;
   imageCredit?: string;
   sourceUrl?: string;
   priceText?: string;
+  images?: RawDishImageInput[];
+}
+
+export interface RawDishImageInput {
+  url: string;
+  alt?: string;
+  credit?: string;
+  source?: string;
+  sourceUrl?: string;
+  isPrimary?: boolean;
+}
+
+export interface RawSourceNoteInput {
+  sourceId: string;
+  title: string;
+  body?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  imageCredit?: string;
+  sourceUrl?: string;
 }
 
 export interface RawRestaurantInput {
@@ -47,6 +70,7 @@ export interface RawRestaurantInput {
   websiteUrl?: string;
   sourceUrl?: string;
   externalLinks?: RawExternalLinkInput[];
+  sourceNotes?: RawSourceNoteInput[];
   dishes: RawDishInput[];
 }
 
@@ -102,4 +126,69 @@ export interface DishListItem {
     slug: string;
     type: TagType;
   }>;
+}
+
+export interface DishDetailItem extends DishListItem {
+  source: string;
+  sourceId: string;
+  sourceUrl: string | null;
+  imageCredit: string | null;
+  restaurant: DishListItem["restaurant"] & {
+    cuisine: string | null;
+    region: string | null;
+  };
+  images: DishOntologyImage[];
+  ontology: DishOntology;
+}
+
+export interface DishOntologyImage {
+  id: number;
+  url: string;
+  alt: string | null;
+  credit: string | null;
+  source: string;
+  sourceUrl: string | null;
+  isPrimary: boolean;
+}
+
+export interface DishOntologyTag {
+  id: number;
+  name: string;
+  slug: string;
+  type: TagType;
+  confidence: number;
+  source: string;
+}
+
+export interface DishOntology {
+  identity: {
+    id: number;
+    slug: string;
+    label: string;
+    type: "dish";
+  };
+  award: {
+    label: AwardType;
+    type: "award";
+    source: string;
+  };
+  cuisine: {
+    label: string;
+    type: "cuisine";
+    source: string;
+  } | null;
+  place: {
+    city: string | null;
+    region: string | null;
+    country: string;
+    source: string;
+  };
+  tags: Record<TagType, DishOntologyTag[]>;
+  media: DishOntologyImage[];
+  provenance: {
+    source: string;
+    sourceId: string;
+    sourceUrl: string | null;
+    imageCredit: string | null;
+  };
 }

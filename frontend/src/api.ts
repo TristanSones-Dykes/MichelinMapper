@@ -1,4 +1,4 @@
-import type { AwardType, DishListItem, RestaurantMapItem, TagType } from "../../shared/types";
+import type { AwardType, DishDetailItem, DishListItem, RestaurantMapItem, TagType } from "../../shared/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -62,6 +62,12 @@ export async function fetchDishes(
 
   const response = await fetch(`${API_BASE_URL}/api/dishes?${params.toString()}`, { signal });
   return parseJson<DishResponse>(response);
+}
+
+export async function fetchDish(id: number, signal?: AbortSignal): Promise<DishDetailItem> {
+  const response = await fetch(`${API_BASE_URL}/api/dishes/${id}`, { signal });
+  const payload = await parseJson<{ item: DishDetailItem }>(response);
+  return payload.item;
 }
 
 async function parseJson<T>(response: Response): Promise<T> {

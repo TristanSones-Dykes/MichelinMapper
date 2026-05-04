@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS dishes (
   source_id TEXT NOT NULL,
   name TEXT NOT NULL,
   slug TEXT NOT NULL,
+  dish_kind TEXT NOT NULL DEFAULT 'dish' CHECK (dish_kind IN ('dish', 'menu_highlight')),
   description TEXT,
   image_url TEXT,
   image_alt TEXT,
@@ -55,6 +56,21 @@ CREATE TABLE IF NOT EXISTS dishes (
   FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
   UNIQUE (source, source_id),
   UNIQUE (restaurant_id, slug)
+);
+
+CREATE TABLE IF NOT EXISTS dish_images (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  dish_id INTEGER NOT NULL,
+  url TEXT NOT NULL,
+  alt TEXT,
+  credit TEXT,
+  source TEXT NOT NULL DEFAULT 'unknown',
+  source_url TEXT,
+  is_primary INTEGER NOT NULL DEFAULT 0 CHECK (is_primary IN (0, 1)),
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (dish_id) REFERENCES dishes (id) ON DELETE CASCADE,
+  UNIQUE (dish_id, url)
 );
 
 CREATE TABLE IF NOT EXISTS tags (
@@ -108,6 +124,23 @@ CREATE TABLE IF NOT EXISTS restaurant_external_links (
   UNIQUE (restaurant_id, source, url)
 );
 
+CREATE TABLE IF NOT EXISTS restaurant_source_notes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  restaurant_id INTEGER NOT NULL,
+  source TEXT NOT NULL DEFAULT 'manual',
+  source_id TEXT NOT NULL,
+  title TEXT NOT NULL,
+  body TEXT,
+  image_url TEXT,
+  image_alt TEXT,
+  image_credit TEXT,
+  source_url TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
+  UNIQUE (restaurant_id, source, source_id)
+);
+
 CREATE TABLE IF NOT EXISTS ingestion_runs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   source TEXT NOT NULL,
@@ -133,6 +166,9 @@ CREATE INDEX IF NOT EXISTS idx_restaurants_coordinates
 CREATE INDEX IF NOT EXISTS idx_dishes_restaurant_id
   ON dishes (restaurant_id);
 
+CREATE INDEX IF NOT EXISTS idx_dishes_dish_kind
+  ON dishes (dish_kind);
+
 CREATE INDEX IF NOT EXISTS idx_dishes_created_at
   ON dishes (created_at DESC);
 
@@ -145,11 +181,17 @@ CREATE INDEX IF NOT EXISTS idx_tags_type
 CREATE INDEX IF NOT EXISTS idx_dish_tags_tag_id
   ON dish_tags (tag_id);
 
+CREATE INDEX IF NOT EXISTS idx_dish_images_dish_id
+  ON dish_images (dish_id);
+
 CREATE INDEX IF NOT EXISTS idx_restaurant_external_links_restaurant_id
   ON restaurant_external_links (restaurant_id);
 
 CREATE INDEX IF NOT EXISTS idx_restaurant_external_links_source
   ON restaurant_external_links (source);
+
+CREATE INDEX IF NOT EXISTS idx_restaurant_source_notes_restaurant_id
+  ON restaurant_source_notes (restaurant_id);
 
 CREATE INDEX IF NOT EXISTS idx_ingestion_runs_started_at
   ON ingestion_runs (started_at DESC);

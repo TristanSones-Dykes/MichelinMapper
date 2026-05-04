@@ -79,6 +79,14 @@ Expected source shape:
     "country": "France",
     "latitude": 48.8566,
     "longitude": 2.3522,
+    "sourceNotes": [
+      {
+        "sourceId": "restaurant-123-profile",
+        "title": "MICHELIN source profile",
+        "body": "Restaurant-level review or profile text.",
+        "imageUrl": "https://example.com/restaurant.jpg"
+      }
+    ],
     "dishes": [
       {
         "sourceId": "dish-123",

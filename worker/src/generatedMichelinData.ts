@@ -43,11 +43,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=The%20Inn%20at%20Little%20Washington%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-the-inn-at-little-washington-menu-highlights",
-        "name": "American menu highlights",
-        "description": "The iconic Chef Patrick O’Connell has long been the steward of this idyllic restaurant outside Washington, D.C. In a town whose very existence seems tied to his success, dinner here recalls ...",
+        "sourceId": "michelin-the-inn-at-little-washington-michelin-review",
+        "title": "American source profile",
+        "body": "The iconic Chef Patrick O’Connell has long been the steward of this idyllic restaurant outside Washington, D.C. In a town whose very existence seems tied to his success, dinner here recalls ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/b3996754e4054731b52c93a7fc803621.jpeg?width=900",
         "imageAlt": "The Inn at Little Washington restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -97,11 +98,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=L'Atelier%20Robuchon%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-l-atelier-robuchon-menu-highlights",
-        "name": "French Contemporary menu highlights",
-        "description": "On the shores of Lake Geneva, the luxury Woodward hotel boasts a fine dining restaurant that is the epitome of classy decadence. Diners are seated in an interior, tastefully appointed in dark wood...",
+        "sourceId": "michelin-l-atelier-robuchon-michelin-review",
+        "title": "French Contemporary source profile",
+        "body": "On the shores of Lake Geneva, the luxury Woodward hotel boasts a fine dining restaurant that is the epitome of classy decadence. Diners are seated in an interior, tastefully appointed in dark wood...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/a8e11e338b1944008eb41d19413ba277.jpg?width=900",
         "imageAlt": "L'Atelier Robuchon restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -151,11 +153,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Table%20du%20Lausanne%20Palace%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-table-du-lausanne-palace-menu-highlights",
-        "name": "Modern French menu highlights",
-        "description": "Run by Franck Pelux and Sarah Benahmed, the Table of the lavish Lausanne Palace oozes refined elegance and bucket loads of intensity. A score in the zeitgeist, whose Gallic roots are nurtured by ...",
+        "sourceId": "michelin-la-table-du-lausanne-palace-michelin-review",
+        "title": "Modern French source profile",
+        "body": "Run by Franck Pelux and Sarah Benahmed, the Table of the lavish Lausanne Palace oozes refined elegance and bucket loads of intensity. A score in the zeitgeist, whose Gallic roots are nurtured by ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/bf4c198998e84305bb162b86c2d11f78.jpeg?width=900",
         "imageAlt": "La Table du Lausanne Palace restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -205,11 +208,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Einstein%20Gourmet%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-einstein-gourmet-menu-highlights",
-        "name": "Creative menu highlights",
-        "description": "On the fifth floor of the renowned Hotel Einstein, chefs Sebastian Zier and Richard Schmidtkonz propose an international set menu showcasing exceptional precision and culinary artistry. The four ...",
+        "sourceId": "michelin-einstein-gourmet-michelin-review",
+        "title": "Creative source profile",
+        "body": "On the fifth floor of the renowned Hotel Einstein, chefs Sebastian Zier and Richard Schmidtkonz propose an international set menu showcasing exceptional precision and culinary artistry. The four ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/713f3871096b4c1492c3c9b0c417167c.jpeg?width=900",
         "imageAlt": "Einstein Gourmet restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -259,11 +263,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Plat%C3%A1n%20Gourmet%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-platan-gourmet-menu-highlights",
-        "name": "Creative menu highlights",
-        "description": "Your evening starts with an aperitif and snacks at the Chef's Table, before you are shown through to a barrel-vaulted cellar with an open kitchen. Here, the team work with calm efficiency and ...",
+        "sourceId": "michelin-platan-gourmet-michelin-review",
+        "title": "Creative source profile",
+        "body": "Your evening starts with an aperitif and snacks at the Chef's Table, before you are shown through to a barrel-vaulted cellar with an open kitchen. Here, the team work with calm efficiency and ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/da942b53da54418bba73d5f185e2e47a.jpeg?width=900",
         "imageAlt": "Platán Gourmet restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -313,11 +318,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Flore%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-flore-menu-highlights",
-        "name": "Contemporary menu highlights",
-        "description": "Step away from the bustle of central Amsterdam, walk through the lobby of De L'Europe hotel and immerse yourself in the one-of-a-kind conscious fine dining experience that is Flore. Diners are ...",
+        "sourceId": "michelin-flore-michelin-review",
+        "title": "Contemporary source profile",
+        "body": "Step away from the bustle of central Amsterdam, walk through the lobby of De L'Europe hotel and immerse yourself in the one-of-a-kind conscious fine dining experience that is Flore. Diners are ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/101c448c81214c5e95a1882178e9fde1.jpeg?width=900",
         "imageAlt": "Flore restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -367,11 +373,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=LOUIS%20restaurant%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-louis-restaurant-menu-highlights",
-        "name": "Modern French menu highlights",
-        "description": "In the restaurant of the tasteful boutique hotel LA MAISON, chef Sebastian Sandor and his team have forged a distinctive identity rooted in modern French cuisine infused with pronounced Japanese ...",
+        "sourceId": "michelin-louis-restaurant-michelin-review",
+        "title": "Modern French source profile",
+        "body": "In the restaurant of the tasteful boutique hotel LA MAISON, chef Sebastian Sandor and his team have forged a distinctive identity rooted in modern French cuisine infused with pronounced Japanese ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/9de0817305b849ec840f2e7db632080c.jpeg?width=900",
         "imageAlt": "LOUIS restaurant restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -421,11 +428,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=PUR%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-pur-1187942-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "The picturesque location on the Obersalzberg, at around 1 000m above sea level, affords a fantastic mountain panorama for diners to take in. But the fine dining restaurant of the luxurious ...",
+        "sourceId": "michelin-pur-1187942-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "The picturesque location on the Obersalzberg, at around 1 000m above sea level, affords a fantastic mountain panorama for diners to take in. But the fine dining restaurant of the luxurious ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/754ed20e6cce4dbda3149726c76cebc1.jpg?width=900",
         "imageAlt": "PUR restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -475,11 +483,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Il%20Ristorante-Niko%20Romito%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-il-ristorante-niko-romito-1196980-menu-highlights",
-        "name": "Italian menu highlights",
-        "description": "This uber-cool and stylish restaurant is located within the Bulgari Resort Hotel, and diners are cossetted from the moment they step through the door by the charming Italian team. The sleek, ...",
+        "sourceId": "michelin-il-ristorante-niko-romito-1196980-michelin-review",
+        "title": "Italian source profile",
+        "body": "This uber-cool and stylish restaurant is located within the Bulgari Resort Hotel, and diners are cossetted from the moment they step through the door by the charming Italian team. The sleek, ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/8e009b09cc9549779cd5233ab7bbe3cc.jpg?width=900",
         "imageAlt": "Il Ristorante-Niko Romito restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -529,11 +538,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Pierre%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-pierre-1193242-menu-highlights",
-        "name": "French menu highlights",
-        "description": "Freshness is number one with the chef of Pierre, so he focuses on ingredients grown and raised in Japan. The menu only lists the ingredients, encouraging guests to give their imaginations free ...",
+        "sourceId": "michelin-pierre-1193242-michelin-review",
+        "title": "French source profile",
+        "body": "Freshness is number one with the chef of Pierre, so he focuses on ingredients grown and raised in Japan. The menu only lists the ingredients, encouraging guests to give their imaginations free ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/6e903116398a4d45a3bfc4d264337def.jpg?width=900",
         "imageAlt": "Pierre restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -583,11 +593,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Kanamean%20Nishitomiya%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-kanamean-nishitomiya-menu-highlights",
-        "name": "Japanese menu highlights",
-        "description": "The ‘kaname’ is the crucial pivot pin of a folding fan. Taking that pivotal role, the husband-and-wife proprietors tour the famous restaurants and wineries of the world, blending the ...",
+        "sourceId": "michelin-kanamean-nishitomiya-michelin-review",
+        "title": "Japanese source profile",
+        "body": "The ‘kaname’ is the crucial pivot pin of a folding fan. Taking that pivotal role, the husband-and-wife proprietors tour the famous restaurants and wineries of the world, blending the ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/862e9def88ea4808896353a335cb8324.jpeg?width=900",
         "imageAlt": "Kanamean Nishitomiya restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -637,11 +648,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Baie%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-baie-menu-highlights",
-        "name": "French menu highlights",
-        "description": "A dining room fit for a noble mansion, décor of stunning symmetry and graceful service by the waitstaff create a moment cocooned in splendour. Commanding the kitchen is Christophe Gibert, a native...",
+        "sourceId": "michelin-la-baie-michelin-review",
+        "title": "French source profile",
+        "body": "A dining room fit for a noble mansion, décor of stunning symmetry and graceful service by the waitstaff create a moment cocooned in splendour. Commanding the kitchen is Christophe Gibert, a native...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/69e24e08fcd74003a1e2769c5cdf912a.jpeg?width=900",
         "imageAlt": "La Baie restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -691,11 +703,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Jean-Georges%20at%20The%20Shinmonzen%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-jean-georges-at-the-shinmonzen-menu-highlights",
-        "name": "French menu highlights",
-        "description": "Contemporary French cuisine that welcomes influences from other culinary cultures. The chef, Jean-Georges Vongerichten, proclaims to the world a borderless cuisine born of his experience living in...",
+        "sourceId": "michelin-jean-georges-at-the-shinmonzen-michelin-review",
+        "title": "French source profile",
+        "body": "Contemporary French cuisine that welcomes influences from other culinary cultures. The chef, Jean-Georges Vongerichten, proclaims to the world a borderless cuisine born of his experience living in...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/e8a567130a9c4107845ecae6e4d8dfe9.jpg?width=900",
         "imageAlt": "Jean-Georges at The Shinmonzen restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -745,11 +758,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Edvard%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-edvard-menu-highlights",
-        "name": "Creative menu highlights",
-        "description": "The fine dining restaurant of the Anantara Palais Hansen Hotel has a tasteful interior channeling an elegant style. It serves a seasonally inspired menu injected with fresh pops of colour by chef ...",
+        "sourceId": "michelin-edvard-michelin-review",
+        "title": "Creative source profile",
+        "body": "The fine dining restaurant of the Anantara Palais Hansen Hotel has a tasteful interior channeling an elegant style. It serves a seasonally inspired menu injected with fresh pops of colour by chef ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/dcd347b7f24a481b93a1e94ad560803f.jpeg?width=900",
         "imageAlt": "Edvard restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -799,11 +813,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Table%20du%20Cap%20Estel%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-table-du-cap-estel-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "Perched atop the rocky cliffside on an enchanting peninsula between Nice and Monaco, this hotel is one of the most secluded and exclusive spots on the Côte d'Azur. Access is via a discreet gate, ...",
+        "sourceId": "michelin-la-table-du-cap-estel-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "Perched atop the rocky cliffside on an enchanting peninsula between Nice and Monaco, this hotel is one of the most secluded and exclusive spots on the Côte d'Azur. Access is via a discreet gate, ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/0c682738cdca4c4e885c0abefb3cfe5e.jpeg?width=900",
         "imageAlt": "La Table du Cap Estel restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -853,11 +868,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=L'Oursin%20-%20H%C3%B4tel%20Les%20Roches%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-l-oursin-hotel-les-roches-menu-highlights",
-        "name": "Mediterranean Cuisine menu highlights",
-        "description": "Hôtel des Roches has been entirely rebuilt with local Bormes stone, giving it a new lease of life. Perched on the rocks just above the sea, it boasts spectacular views from Cap Nègre to the Îles ...",
+        "sourceId": "michelin-l-oursin-hotel-les-roches-michelin-review",
+        "title": "Mediterranean Cuisine source profile",
+        "body": "Hôtel des Roches has been entirely rebuilt with local Bormes stone, giving it a new lease of life. Perched on the rocks just above the sea, it boasts spectacular views from Cap Nègre to the Îles ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/667a24f5e0054630b4744977b84013bf.jpeg?width=900",
         "imageAlt": "L'Oursin - Hôtel Les Roches restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -907,11 +923,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Table%20d'Armante%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-table-d-armante-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "In the heart of a genuine Alpine village dominated by the Miage peaks, a former bakery has morphed into an understated luxe chalet that is home to a swish, sleek mountain restaurant decked out in ...",
+        "sourceId": "michelin-la-table-d-armante-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "In the heart of a genuine Alpine village dominated by the Miage peaks, a former bakery has morphed into an understated luxe chalet that is home to a swish, sleek mountain restaurant decked out in ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/96cd570b2ade4416aec49b3a472ad478.jpeg?width=900",
         "imageAlt": "La Table d'Armante restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -961,11 +978,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Colette%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-colette-1192024-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "Having fallen in love with Saint-Tropez, French author Colette bought a small house next to Hotel Sezz, the restaurant of which is now named after her. Chef Philippe Colinet deploys his ...",
+        "sourceId": "michelin-colette-1192024-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "Having fallen in love with Saint-Tropez, French author Colette bought a small house next to Hotel Sezz, the restaurant of which is now named after her. Chef Philippe Colinet deploys his ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/a42d0073d09448dba39d5213b9e6aa0c.jpeg?width=900",
         "imageAlt": "Colette restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1015,11 +1033,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Table%20de%20l'Ours%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-table-de-l-ours-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "This fine dining establishment is part of a luxurious hotel, which feels like a plush chalet. On the edge of the famous ski run, Face de Bellevarde, the restaurant is chic and elegant with a ...",
+        "sourceId": "michelin-la-table-de-l-ours-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "This fine dining establishment is part of a luxurious hotel, which feels like a plush chalet. On the edge of the famous ski run, Face de Bellevarde, the restaurant is chic and elegant with a ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/47217812dc6a427b8c2b7044bfb553e8.jpeg?width=900",
         "imageAlt": "La Table de l'Ours restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1069,11 +1088,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Anne%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-anne-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "The Pavillon de la Reine, a magnificent residence in Place des Vosges, is named after Anne of Austria, Queen of France and wife of Louis XIII, who once lived here. The refurbished dining room ...",
+        "sourceId": "michelin-anne-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "The Pavillon de la Reine, a magnificent residence in Place des Vosges, is named after Anne of Austria, Queen of France and wife of Louis XIII, who once lived here. The refurbished dining room ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/0a628475da7d4ac99f85d406d0763e84.jpg?width=900",
         "imageAlt": "Anne restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1123,11 +1143,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Table%20de%20C%C3%A9dric%20B%C3%A9chade%20-%20L'Auberge%20Basque%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-table-de-cedric-bechade-l-auberge-basque-menu-highlights",
-        "name": "Creative menu highlights",
-        "description": "Close to Saint-Jean-de-Luz and the coast, this old Basque farmhouse has an elegant contemporary wing overlooking the Rhune (Larrun) mountain and the countryside. It is here in the very heart of ...",
+        "sourceId": "michelin-la-table-de-cedric-bechade-l-auberge-basque-michelin-review",
+        "title": "Creative source profile",
+        "body": "Close to Saint-Jean-de-Luz and the coast, this old Basque farmhouse has an elegant contemporary wing overlooking the Rhune (Larrun) mountain and the countryside. It is here in the very heart of ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/7b638db7190542f0a6ae12ee8bf89f13.jpeg?width=900",
         "imageAlt": "La Table de Cédric Béchade - L'Auberge Basque restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1177,11 +1198,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Table%20de%20Pierre%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-table-de-pierre-menu-highlights",
-        "name": "Mediterranean Cuisine menu highlights",
-        "description": "Le Mas de Pierre, a luxurious hotel in immaculate surroundings, boasts a large ornamental garden, olive trees and a vegetable garden. Comfortably seated in the conservatory, which can be fully ...",
+        "sourceId": "michelin-la-table-de-pierre-michelin-review",
+        "title": "Mediterranean Cuisine source profile",
+        "body": "Le Mas de Pierre, a luxurious hotel in immaculate surroundings, boasts a large ornamental garden, olive trees and a vegetable garden. Comfortably seated in the conservatory, which can be fully ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/f0075b4b764b4c62a527e2d56210ae83.jpeg?width=900",
         "imageAlt": "La Table de Pierre restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1231,11 +1253,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Relais%20de%20la%20Poste%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-relais-de-la-poste11709-menu-highlights",
-        "name": "Classic Cuisine menu highlights",
-        "description": "In their establishment overlooking the pine forest, the Coussau family champion classic French cuisine and pay homage to the Landes terroir: foie gras, poultry, Chalosse beef, and fish from ...",
+        "sourceId": "michelin-relais-de-la-poste11709-michelin-review",
+        "title": "Classic Cuisine source profile",
+        "body": "In their establishment overlooking the pine forest, the Coussau family champion classic French cuisine and pay homage to the Landes terroir: foie gras, poultry, Chalosse beef, and fish from ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/cd98368df0e74ea2a2df08a523635d22.jpg?width=900",
         "imageAlt": "Relais de la Poste restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1285,11 +1308,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Fontevraud%20L'Ermitage%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-fontevraud-l-ermitage-menu-highlights",
-        "name": "Creative menu highlights",
-        "description": "Saint Lazare Priory is located in the heart of Fontevraud Abbey, one of Europe’s largest monastic complexes. The former’s cloisters have been morphed into a restaurant by designer Patrick Jouin ...",
+        "sourceId": "michelin-fontevraud-l-ermitage-michelin-review",
+        "title": "Creative source profile",
+        "body": "Saint Lazare Priory is located in the heart of Fontevraud Abbey, one of Europe’s largest monastic complexes. The former’s cloisters have been morphed into a restaurant by designer Patrick Jouin ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/4030696ddb5c40a3b8527190de00f128.jpeg?width=900",
         "imageAlt": "Fontevraud L'Ermitage restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1339,11 +1363,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Le%20Baudelaire%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-le-baudelaire-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "Relax in this stylish, trendy restaurant, nestling in the heart of a snug, arty luxury hotel that embodies the new Parisian chic. The dining room is laid out around an inner courtyard-cum-winter ...",
+        "sourceId": "michelin-le-baudelaire-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "Relax in this stylish, trendy restaurant, nestling in the heart of a snug, arty luxury hotel that embodies the new Parisian chic. The dining room is laid out around an inner courtyard-cum-winter ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/41084cb09ba146c690e3dae5a9a07594.jpeg?width=900",
         "imageAlt": "Le Baudelaire restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1393,11 +1418,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Le%20Chantecler%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-le-chantecler-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "Le Negresco regally occupies its seafront location on Nice’s iconic Promenade des Anglais. \"MOF\" 2015, Virginie Basselot, is at the helm of its fine dining restaurant, Le Chantecler. In this ...",
+        "sourceId": "michelin-le-chantecler-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "Le Negresco regally occupies its seafront location on Nice’s iconic Promenade des Anglais. \"MOF\" 2015, Virginie Basselot, is at the helm of its fine dining restaurant, Le Chantecler. In this ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/7eb6d6914df04dfb9eb8eb8e82a7d70e.jpg?width=900",
         "imageAlt": "Le Chantecler restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1447,11 +1473,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Les%20Loges%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-les-loges-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "After a prodigious makeover, Les Loges, located in a magnificent Renaissance edifice, has reopened in the heart of historic Lyon. The romantic vibe, depicted by a Florentine courtyard flanked by ...",
+        "sourceId": "michelin-les-loges-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "After a prodigious makeover, Les Loges, located in a magnificent Renaissance edifice, has reopened in the heart of historic Lyon. The romantic vibe, depicted by a Florentine courtyard flanked by ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/98de6a6d06d247bbbd2f4968cf04e305.jpeg?width=900",
         "imageAlt": "Les Loges restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1501,11 +1528,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Le%20Chabichou%20by%20St%C3%A9phane%20Buron%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-le-chabichou-by-stephane-buron-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "This luxurious hotel with a cosy, elegant interior sporting thick pile carpeting, coffered ceilings, immaculate-white designer seats and modern tables with smoked glass tops is emblematic of the ...",
+        "sourceId": "michelin-le-chabichou-by-stephane-buron-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "This luxurious hotel with a cosy, elegant interior sporting thick pile carpeting, coffered ceilings, immaculate-white designer seats and modern tables with smoked glass tops is emblematic of the ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/bd56bd3afdf445c183c634ff8237897f.jpeg?width=900",
         "imageAlt": "Le Chabichou by Stéphane Buron restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1555,11 +1583,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=La%20Table%20de%20l'Alpaga%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-la-table-de-l-alpaga-menu-highlights",
-        "name": "Creative menu highlights",
-        "description": "How delightful it is to settle in at your table in this stylish but snug space, in which untreated and premium materials such as marble and oak have been used to create an authentic and timeless ...",
+        "sourceId": "michelin-la-table-de-l-alpaga-michelin-review",
+        "title": "Creative source profile",
+        "body": "How delightful it is to settle in at your table in this stylish but snug space, in which untreated and premium materials such as marble and oak have been used to create an authentic and timeless ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/c9383f35b4dc40679d1ac4311b67816b.jpeg?width=900",
         "imageAlt": "La Table de l'Alpaga restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",
@@ -1609,11 +1638,12 @@ export const MICHELIN_RESTAURANTS: RawRestaurantInput[] = [
         "url": "https://www.tiktok.com/search?q=Alc%C3%B4ve%20restaurant"
       }
     ],
-    "dishes": [
+    "dishes": [],
+    "sourceNotes": [
       {
-        "sourceId": "michelin-alcove-menu-highlights",
-        "name": "Modern Cuisine menu highlights",
-        "description": "Business is booming in this luxurious hotel surrounded by vineyards, thanks to plush guestrooms, a rose garden... and its restaurant, established in a bright, modern dining room whose large bow ...",
+        "sourceId": "michelin-alcove-michelin-review",
+        "title": "Modern Cuisine source profile",
+        "body": "Business is booming in this luxurious hotel surrounded by vineyards, thanks to plush guestrooms, a rose garden... and its restaurant, established in a bright, modern dining room whose large bow ...",
         "imageUrl": "https://axwwgrkdco.cloudimg.io/v7/__gmpics3__/3b2e1d2b1d5e43b8a64ab0ca7aa507e7.jpeg?width=900",
         "imageAlt": "Alcôve restaurant image from MICHELIN Guide",
         "imageCredit": "MICHELIN Guide",

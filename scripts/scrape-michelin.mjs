@@ -128,17 +128,18 @@ function parseRestaurantPage(url, html) {
         url: `https://www.tiktok.com/search?q=${encodeURIComponent(`${name} restaurant`)}`
       }
     ],
-    dishes: [
+    sourceNotes: [
       {
-        sourceId: `${sourceId}-menu-highlights`,
-        name: `${cuisine || "MICHELIN"} menu highlights`,
-        description: review,
+        sourceId: `${sourceId}-michelin-review`,
+        title: `${cuisine || "MICHELIN"} source profile`,
+        body: review,
         imageUrl,
         imageAlt: `${name} restaurant image from MICHELIN Guide`,
         imageCredit: "MICHELIN Guide",
         sourceUrl: url
       }
-    ].filter((dish) => dish.description || dish.imageUrl)
+    ].filter((note) => note.body || note.imageUrl),
+    dishes: []
   };
 }
 

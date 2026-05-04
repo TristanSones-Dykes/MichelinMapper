@@ -2,6 +2,7 @@ import { classifyDish } from "../../shared/classifier";
 import { buildRestaurantSlug } from "../../shared/restaurantSlug";
 import { slugify } from "../../shared/slug";
 import type { ClassifiedTag, RawRestaurantInput } from "../../shared/types";
+import { isPublishableDishSource } from "./api/dishOntology";
 import type { Env } from "./env";
 import { createSeedSource } from "./sources/seed";
 import type { IngestionSource } from "./sources/types";
@@ -54,10 +55,16 @@ export async function runCrawler(env: Env): Promise<IngestionStats> {
         const restaurantId = await upsertRestaurant(env, enrichedRestaurant);
         stats.restaurantsUpserted += 1;
         await replaceExternalLinks(env, restaurantId, getExternalLinks(enrichedRestaurant));
+        await replaceSourceNotes(env, restaurantId, enrichedRestaurant);
 
         for (const dish of enrichedRestaurant.dishes) {
+          if (!isPublishableDishSource(dish)) {
+            continue;
+          }
+
           const dishId = await upsertDish(env, restaurantId, enrichedRestaurant.source, dish);
           stats.dishesUpserted += 1;
+          await replaceDishImages(env, dishId, enrichedRestaurant.source, dish);
 
           const tags = classifyDish({
             awardType: enrichedRestaurant.awardType,
@@ -79,6 +86,49 @@ export async function runCrawler(env: Env): Promise<IngestionStats> {
     await failIngestionRun(env, runId, error);
     throw error;
   }
+}
+
+async function replaceSourceNotes(
+  env: Env,
+  restaurantId: number,
+  restaurant: RawRestaurantInput
+): Promise<void> {
+  await env.DB.prepare("DELETE FROM restaurant_source_notes WHERE restaurant_id = ?")
+    .bind(restaurantId)
+    .run();
+
+  if (!restaurant.sourceNotes || restaurant.sourceNotes.length === 0) {
+    return;
+  }
+
+  await env.DB.batch(
+    restaurant.sourceNotes.map((note) =>
+      env.DB.prepare(
+        `INSERT INTO restaurant_source_notes (
+          restaurant_id, source, source_id, title, body, image_url, image_alt,
+          image_credit, source_url, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        ON CONFLICT(restaurant_id, source, source_id) DO UPDATE SET
+          title = excluded.title,
+          body = excluded.body,
+          image_url = excluded.image_url,
+          image_alt = excluded.image_alt,
+          image_credit = excluded.image_credit,
+          source_url = excluded.source_url,
+          updated_at = datetime('now')`
+      ).bind(
+        restaurantId,
+        restaurant.source,
+        note.sourceId,
+        note.title,
+        note.body ?? null,
+        note.imageUrl ?? null,
+        note.imageAlt ?? null,
+        note.imageCredit ?? null,
+        note.sourceUrl ?? null
+      )
+    )
+  );
 }
 
 async function safeExtractWebsiteMenuDishes(restaurant: RawRestaurantInput): Promise<RawRestaurantInput["dishes"]> {
@@ -238,13 +288,14 @@ async function upsertDish(
 
   const row = await env.DB.prepare(
     `INSERT INTO dishes (
-      restaurant_id, source, source_id, name, slug, description, image_url,
+      restaurant_id, source, source_id, name, slug, dish_kind, description, image_url,
       image_alt, image_credit, source_url, price_text, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
     ON CONFLICT(source, source_id) DO UPDATE SET
       restaurant_id = excluded.restaurant_id,
       name = excluded.name,
       slug = excluded.slug,
+      dish_kind = excluded.dish_kind,
       description = excluded.description,
       image_url = excluded.image_url,
       image_alt = excluded.image_alt,
@@ -260,6 +311,7 @@ async function upsertDish(
       dish.sourceId,
       dish.name,
       slug,
+      dish.dishKind ?? "dish",
       dish.description ?? null,
       dish.imageUrl ?? null,
       dish.imageAlt ?? null,
@@ -274,6 +326,60 @@ async function upsertDish(
   }
 
   return row.id;
+}
+
+async function replaceDishImages(
+  env: Env,
+  dishId: number,
+  source: string,
+  dish: RawRestaurantInput["dishes"][number]
+): Promise<void> {
+  await env.DB.prepare("DELETE FROM dish_images WHERE dish_id = ?").bind(dishId).run();
+
+  const images = [
+    ...(dish.imageUrl
+      ? [
+          {
+            url: dish.imageUrl,
+            alt: dish.imageAlt,
+            credit: dish.imageCredit,
+            source,
+            sourceUrl: dish.sourceUrl,
+            isPrimary: true
+          }
+        ]
+      : []),
+    ...(dish.images ?? [])
+  ].filter((image, index, list) => list.findIndex((candidate) => candidate.url === image.url) === index);
+
+  if (images.length === 0) {
+    return;
+  }
+
+  await env.DB.batch(
+    images.map((image, index) =>
+      env.DB.prepare(
+        `INSERT INTO dish_images (
+          dish_id, url, alt, credit, source, source_url, is_primary, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        ON CONFLICT(dish_id, url) DO UPDATE SET
+          alt = excluded.alt,
+          credit = excluded.credit,
+          source = excluded.source,
+          source_url = excluded.source_url,
+          is_primary = excluded.is_primary,
+          updated_at = datetime('now')`
+      ).bind(
+        dishId,
+        image.url,
+        image.alt ?? null,
+        image.credit ?? null,
+        image.source ?? source,
+        image.sourceUrl ?? dish.sourceUrl ?? null,
+        (image.isPrimary ?? index === 0) ? 1 : 0
+      )
+    )
+  );
 }
 
 async function replaceDishTags(
