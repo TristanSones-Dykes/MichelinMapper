@@ -1,4 +1,5 @@
 import type { RawRestaurantInput } from "../../shared/types";
+import { MICHELIN_RESTAURANTS } from "./generatedMichelinData";
 
 export const MOCK_RESTAURANTS: RawRestaurantInput[] = [
   {
@@ -695,5 +696,6 @@ export const MOCK_RESTAURANTS: RawRestaurantInput[] = [
         sourceUrl: "https://www.narisawa-yoshihiro.com/"
       }
     ]
-  }
+  },
+  ...MICHELIN_RESTAURANTS
 ];
